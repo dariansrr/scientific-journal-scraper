@@ -1,0 +1,1 @@
+Code based in https://github.com/pedroaz/ArticleHunter
