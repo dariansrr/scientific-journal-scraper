@@ -17,7 +17,7 @@ def scrap_all_issues(url):
         print("Found", str(len(list_of_issues)), " issues")
         #print(list_of_issues)
 
-        scrap_issue(list_of_issues)
+        return scrap_issue(list_of_issues)
 
     else:
         print("Coudn't connect to the main website")
@@ -26,8 +26,10 @@ def scrap_all_issues(url):
 def scrap_issue(issues_list):
 
     ######### ONLY FOR TEST #######
-    issues_list = issues_list[:1]
+    issues_list = issues_list[:2]
     ###############################
+
+    all_issue_list = []
 
 
     for issue in issues_list:
@@ -55,17 +57,23 @@ def scrap_issue(issues_list):
             for h3 in list_of_articles:
                 clean_list_of_articles.append(h3.find("a"))
 
-            scrap_article(clean_list_of_articles)
+            # Contacts the current issue in to the list with all the issues
+            all_issue_list += scrap_article(clean_list_of_articles)
 
         else:
             print("Wasn't able to access the issue page " + str(issue_url) )
+    
+    return all_issue_list
+
 
 def scrap_article(article_list):
     
     ######### ONLY FOR TEST #######
     article_list = article_list[:2]
     ###############################
-    
+
+    all_article_list = []
+
     for article in article_list:
         # Get issue url
         article_url = article["href"]
@@ -89,7 +97,10 @@ def scrap_article(article_list):
             # Get title
             article_data[2] = article_soup.find("h1", {"class": "page_title"}).text.strip()
             
-            print(article_data)
+            # appends the current article in to the list with all the articles
+            all_article_list.append(article_data)
 
         else:
             print("Wasn't able to access the article page " + str(article_url) )
+    
+    return all_article_list
