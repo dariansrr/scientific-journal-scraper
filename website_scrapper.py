@@ -96,6 +96,21 @@ def scrap_article(article_list):
                         
             # Get title
             article_data[2] = article_soup.find("h1", {"class": "page_title"}).text.strip()
+
+            # Get author
+            author_tags = article_soup.findAll("span", {"class": "name"})
+            for author in author_tags:
+                article_data[3] += (author.text.strip() + ", ")
+            article_data[3] = article_data[3][:-2] #removes the last ','
+
+            # Get abstract
+            abstract_tag = article_soup.find("section", {"class": "item abstract"}).text
+            article_data[4] = abstract_tag.replace("Resumo\n\t\t\t\t\t", "").strip()
+
+            # Get key-words
+            article_data[5] = article_soup.find("section", {"class": "item keywords"}).text.split(":")[1]
+            article_data[5] = " ".join(article_data[5].split()) # removes tabs and new lines
+            article_data[5].replace(" , ", ", ")
             
             # appends the current article in to the list with all the articles
             all_article_list.append(article_data)
