@@ -88,8 +88,11 @@ def scrap_article(article_list):
             article_data = [""] * 6
 
             # Get year
-            article_data[0] = article_soup.find("div", {"class": "csl-entry"}).text
-            article_data[0] = re.findall("\(([0-9]{4})", article_data[0])[0]
+            try:
+                article_data[0] = article_soup.find("div", {"class": "csl-entry"}).text
+                article_data[0] = re.findall("\(([0-9]{4})", article_data[0])[0]
+            except:
+                article_data[0] = ""
                         
             # Get title
             article_data[2] = article_soup.find("h1", {"class": "page_title"}).text.strip()
@@ -101,13 +104,19 @@ def scrap_article(article_list):
             article_data[3] = article_data[3][:-2] #removes the last ','
 
             # Get abstract
-            abstract_tag = article_soup.find("section", {"class": "item abstract"}).text
-            article_data[4] = abstract_tag.replace("Resumo\n", "").strip()
+            try:
+                abstract_tag = article_soup.find("section", {"class": "item abstract"}).text
+                article_data[4] = abstract_tag.replace("Resumo\n", "").strip()
+            except:
+                article_data[4] = ""
 
             # Get key-words
-            article_data[5] = article_soup.find("section", {"class": "item keywords"}).text.split(":")[1]
-            article_data[5] = " ".join(article_data[5].split()) # removes tabs and new lines
-            article_data[5].replace(" , ", ", ")
+            try:
+                article_data[5] = article_soup.find("section", {"class": "item keywords"}).text.split(":")[1]
+                article_data[5] = " ".join(article_data[5].split()) # removes tabs and new lines
+                article_data[5].replace(" , ", ", ")
+            except:
+                article_data[5] = ""
 
             print("ANO:", article_data[0])
             print("TITULO:", article_data[2])

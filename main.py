@@ -1,9 +1,9 @@
 from website_scrapper import scrap_all_issues
 import pandas as pd
 
-#print('insert url of the journal in the issue/archive section')
-#url = input()
-url = 'http://publicacoes.fcc.org.br/index.php/eae/issue/archive'
+print('insert url of the journal in the issue/archive section')
+url = input()
+#EXAMPLE: url = 'http://publicacoes.fcc.org.br/index.php/eae/issue/archive'
 
 
 # Creates a matrix (list of lists) and the header for final document
