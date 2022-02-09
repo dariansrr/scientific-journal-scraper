@@ -26,7 +26,7 @@ def scrap_all_issues(url):
 def scrap_issue(issues_list):
 
     ######### ONLY FOR TEST #######
-    issues_list = issues_list[:2]
+    #issues_list = issues_list[:2]
     ###############################
 
     all_issue_list = []
@@ -69,7 +69,7 @@ def scrap_issue(issues_list):
 def scrap_article(article_list):
     
     ######### ONLY FOR TEST #######
-    article_list = article_list[:2]
+    #article_list = article_list[:2]
     ###############################
 
     all_article_list = []
@@ -83,9 +83,6 @@ def scrap_article(article_list):
         if(article_page.status_code == 200):
             # Parse article page
             article_soup = BeautifulSoup(article_page.content, "lxml")
-
-            # Create header for final list
-            # article_data = ['Ano', 'Revista', 'Titulo', 'Autores', 'Resumo', 'Palavras-chave']
 
             # Creates empty list with defined size, using '' as default for empty
             article_data = [""] * 6
@@ -105,12 +102,18 @@ def scrap_article(article_list):
 
             # Get abstract
             abstract_tag = article_soup.find("section", {"class": "item abstract"}).text
-            article_data[4] = abstract_tag.replace("Resumo\n\t\t\t\t\t", "").strip()
+            article_data[4] = abstract_tag.replace("Resumo\n", "").strip()
 
             # Get key-words
             article_data[5] = article_soup.find("section", {"class": "item keywords"}).text.split(":")[1]
             article_data[5] = " ".join(article_data[5].split()) # removes tabs and new lines
             article_data[5].replace(" , ", ", ")
+
+            print("ANO:", article_data[0])
+            print("TITULO:", article_data[2])
+            print("AUTORES:", article_data[3])
+            print("RESUMO:", article_data[4])
+            print("PALAVRAS-CHAVE:", article_data[5], "\n\n")
             
             # appends the current article in to the list with all the articles
             all_article_list.append(article_data)
